@@ -4,7 +4,8 @@ export default {
   data: function () {
     return {
       message: "Welcome to Vue.js!",
-      movies: []
+      movies: [],
+      newMovieParams: {}
     };
   },
   created: function () {
@@ -17,6 +18,21 @@ export default {
         console.log(response.data);
         this.movies = response.data;
       });
+    },
+    createMovie: function () {
+      console.log('In creating a new movie...');
+      var newMovieParams = {
+        title: this.newMovieParams.title,
+        year: this.newMovieParams.year,
+        plot: this.newMovieParams.plot,
+        director: this.newMovieParams.director,
+        image_url: this.newMovieParams.image_url
+      }
+      axios.post(`http://localhost:3000/movies.json`, newMovieParams).then(response => {
+        console.log(response.data);
+        this.movies.push(response.data);
+        this.newMovieParams = {}
+      })
     }
   },
 };
@@ -41,11 +57,34 @@ export default {
       <p>Genres: {{ movie.genres }}</p>
       <br />
     </div>
+    <br />
+    <p>
+      Title:
+      <input v-model="newMovieParams.title" />
+    </p>
+    <p>
+      Year:
+      <input v-model="newMovieParams.year" />
+    </p>
+    <p>
+      Plot:
+      <input v-model="newMovieParams.plot" />
+    </p>
+    <p>
+      Director:
+      <input v-model="newMovieParams.director" />
+    </p>
+    <p>
+      Image URL:
+      <input v-model="newMovieParams.image_url" />
+    </p>
+
+    <button v-on:click="createMovie()">Add a new movie!</button>
   </div>
 </template>
 
 <style>
 img {
-  width: 250px;
+  width: 300px;
 }
 </style>
