@@ -4,7 +4,7 @@ export default {
   data: function () {
     return {
       message: "Welcome to Vue.js!",
-      movies: [],
+      movies: []
     };
   },
   created: function () {
@@ -33,9 +33,19 @@ export default {
     <div v-for="movie in movies" v-bind:key="movie.id">
       <br />
       {{ movie.id }}. {{ movie.title }}
+      <br />
+      <img v-bind:src="movie.image_url" v-bind:alt="movie.title" />
+      <p>Year: {{ movie.year }}</p>
       <p>Plot: {{ movie.plot }}</p>
+      <p>Directed by: {{ movie.director }}</p>
+      <p>Genres: {{ movie.genres }}</p>
+      <br />
     </div>
   </div>
 </template>
 
-<style></style>
+<style>
+img {
+  width: 250px;
+}
+</style>
