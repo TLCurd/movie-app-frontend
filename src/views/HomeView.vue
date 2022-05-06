@@ -5,7 +5,8 @@ export default {
     return {
       message: "Welcome to Vue.js!",
       movies: [],
-      newMovieParams: {}
+      newMovieParams: {},
+      errors: []
     };
   },
   created: function () {
@@ -31,7 +32,11 @@ export default {
       axios.post(`http://localhost:3000/movies.json`, newMovieParams).then(response => {
         console.log(response.data);
         this.movies.push(response.data);
+        this.errors = [];
         this.newMovieParams = {}
+      }).catch(error => {
+        console.log('something bad happened');
+        console.log(this.errors = error.response.data.errors);
       })
     }
   },
@@ -42,7 +47,10 @@ export default {
   <div class="home">
     <h1>{{ message }}</h1>
     <!-- <p>{{ movies }}</p> -->
-
+    <small v-for="error in errors">
+      {{ error }}
+      <br />
+    </small>
     <button v-on:click="moviesIndex()">Show me allllll the movies</button>
 
     <br />
